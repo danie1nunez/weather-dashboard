@@ -9,9 +9,8 @@ function handleSearchFormSubmit(e) {
         console.error("Please enter an input value");
         return;
     }
-    // const querystring= `./weather-results.html?q=${searchInputVal}&format=${formatInputVal}`
-    // location.assign(querystring);
     geoCode(searchInputVal);
+    
 }
 
 function geoCode(city){
@@ -29,11 +28,26 @@ function geoCode(city){
             const lat= data[0].lat;
             const lon= data[0].lon;
 
+            clearWeatherCards()
+
             currentWeather(lat, lon);
             fiveDay(lat, lon);
         })
 
-}   
+} 
+
+function clearWeatherCards() {
+    const bigCard = document.querySelector('.bigCard');
+    const weatherDiv = document.querySelector('.weatherDiv');
+
+    if (bigCard) {
+        bigCard.innerHTML = '';  
+    }
+
+    if (weatherDiv) {
+        weatherDiv.innerHTML = '';  
+    }
+}
 
 function currentWeather(lat, lon) {
     const requestUrl= `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=21af6d40d85137fb259723b0c1ef7906&units=imperial`
@@ -66,9 +80,9 @@ function fiveDay(lat, lon) {
 }
 
 function createWeatherCard(array) {
-    for (let i = 0; i < array.length; i++) {
+    for (let i = 5; i < array.length; i++) {
         const element = array[i];
-        if (element.dt_txt.includes('09:00:00')) {
+        if (element.dt_txt.includes('18:00:00')) {
             console.log(element);
             
             const weatherCard = document.createElement('div');
